@@ -10,7 +10,12 @@ package ca.sheridancollege.project;
  */
 
 /**
- * Represents a card in the Blackjack game.
+ * Team project 
+ * Description of code:- 
+ * The BlackjackCard class extends the Card class and represents a card in Blackjack. 
+ * It stores the card's rank, suit, and value, with a constructor to initialize these attributes. 
+ * The getValue() method returns the card's value, and toString() provides a string representation in the format "rank of the suit". 
+ * This class is used to manage cards in a Blackjack game
  */
 public class BlackjackCard extends Card {
     private String suit;
@@ -29,6 +34,6 @@ public class BlackjackCard extends Card {
 
     @Override
     public String toString() {
-        return rank + " of " + suit;
+        return rank + " of the " + suit;
     }
 }

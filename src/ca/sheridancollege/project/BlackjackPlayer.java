@@ -8,11 +8,16 @@ package ca.sheridancollege.project;
  *
  * @author Henil Patel
  */
+
 import java.util.ArrayList;
 
 /**
- * Represents a player in the Blackjack game.
+ * Team project blackjack's player code.
+ * The BlackjackPlayer class extends Player and represents a player in a Blackjack game. 
+ * It manages the player's hand and score, updating the score when a card is received. 
+ * The score is adjusted for Aces if necessary, and the isBusted() method checks if the score exceeds 21.
  */
+
 public class BlackjackPlayer extends Player {
     private ArrayList<BlackjackCard> hand;
     private int score;
@@ -28,6 +33,7 @@ public class BlackjackPlayer extends Player {
         updateScore();
     }
 
+    //initial points needed to set to 0 to create fair play
     private void updateScore() {
         int sum = 0;
         int aceCount = 0;
@@ -46,14 +52,6 @@ public class BlackjackPlayer extends Player {
         this.score = sum;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public boolean isBusted() {
-        return score > 21;
-    }
-
     @Override
     public void play() {
         System.out.println(getName() + " is playing.");
@@ -63,4 +61,14 @@ public class BlackjackPlayer extends Player {
     public String toString() {
         return getName() + "'s Hand: " + hand.toString() + " | Score: " + score;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public boolean isBusted() {
+        return score > 21;
+    }
+
+   
 }

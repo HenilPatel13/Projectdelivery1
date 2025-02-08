@@ -12,7 +12,7 @@ package ca.sheridancollege.project;
 import java.util.Scanner;
 
 /**
- * Controls the flow of the Blackjack game.
+ * Team group project main game code with having logic of game and everything
  */
 public class BlackjackGame extends Game {
     private Deck deck;
@@ -20,7 +20,7 @@ public class BlackjackGame extends Game {
     private BlackjackPlayer dealer;
 
     public BlackjackGame(String playerName) {
-        super("Blackjack");
+        super("Blackjack Game");
         deck = new Deck();
         player = new BlackjackPlayer(playerName);
         dealer = new BlackjackPlayer("Dealer");
@@ -28,17 +28,16 @@ public class BlackjackGame extends Game {
 
     @Override
     public void play() {
-        System.out.println("Starting Blackjack...");
-
-        // Initial dealing
+        System.out.println("Beginning of blackjack game:- ");
+        //giving cards at beginning of game
         player.receiveCard(deck.drawCard());
         player.receiveCard(deck.drawCard());
         dealer.receiveCard(deck.drawCard());
 
         System.out.println(player);
-        System.out.println("Dealer's Hand: [Hidden, " + dealer.getScore() + "]");
+        System.out.println("Dealer's Hand: [Unknown card, " + dealer.getScore() + "]");
 
-        // Player's turn
+        // ckeking game rules and player's turn and giving two option hit and stand according to game
         Scanner scanner = new Scanner(System.in);
         while (player.getScore() < 21) {
             System.out.print("Hit or Stand? (h/s): ");
@@ -47,7 +46,8 @@ public class BlackjackGame extends Game {
                 player.receiveCard(deck.drawCard());
                 System.out.println(player);
                 if (player.isBusted()) {
-                    System.out.println("Busted! Dealer Wins.");
+                    System.out.println("Busted! Dealer Wins the game.");
+                    System.out.println("Better luck next time!");
                     return;
                 }
             } else {
@@ -55,32 +55,33 @@ public class BlackjackGame extends Game {
             }
         }
 
-        // Dealer's turn
-        System.out.println("Dealer reveals hand: " + dealer);
+        // Dealer's turn if game will still can't decide who wins according to points
+        System.out.println("Dealer reveals hand(his card): " + dealer);
         while (dealer.getScore() < 17) {
             dealer.receiveCard(deck.drawCard());
             System.out.println(dealer);
         }
 
-        // Determine winner
+        // Declaring winner
         declareWinner();
+    }
+    
+    public static void main(String[] args) {
+        BlackjackGame game = new BlackjackGame("Player1");
+        game.play();
     }
 
     @Override
     public void declareWinner() {
         if (player.isBusted()) {
-            System.out.println("Dealer Wins!");
+            System.out.println("Dealer Wins the game!");
         } else if (dealer.isBusted() || player.getScore() > dealer.getScore()) {
-            System.out.println(player.getName() + " Wins!");
+            System.out.println(player.getName() + " Wins the game!");
         } else if (player.getScore() < dealer.getScore()) {
-            System.out.println("Dealer Wins!");
+            System.out.println("Dealer Wins the game!");
         } else {
-            System.out.println("It's a Tie!");
+            System.out.println("It's a Tie of game!");
         }
     }
 
-    public static void main(String[] args) {
-        BlackjackGame game = new BlackjackGame("Player1");
-        game.play();
-    }
 }
