@@ -9,79 +9,42 @@ package ca.sheridancollege.project;
  * @author Henil Patel
  */
 
-import java.util.Scanner;
+public class BlackjackGame {
+    private final Deck deck;
+    private final BlackjackPlayer player;
+    private final BlackjackPlayer dealer;
+    private final BlackjackTurnManager turnManager;
 
-/**
- * Team group project main game code with having logic of game and everything
- */
-public class BlackjackGame extends Game {
-    private Deck deck;
-    private BlackjackPlayer player;
-    private BlackjackPlayer dealer;
-
-    public BlackjackGame(String playerName) {
-        super("Blackjack Game");
+    public BlackjackGame() {
         deck = new Deck();
-        player = new BlackjackPlayer(playerName);
+        player = new BlackjackPlayer("Player");
         dealer = new BlackjackPlayer("Dealer");
+        turnManager = new BlackjackTurnManager(deck);
     }
 
-    @Override
-    public void play() {
-        System.out.println("Beginning of blackjack game:- ");
-        //giving cards at beginning of game
+     public void play() {
+        System.out.println("Starting Blackjack...");
+
+        // Initial dealing
         player.receiveCard(deck.drawCard());
         player.receiveCard(deck.drawCard());
         dealer.receiveCard(deck.drawCard());
 
         System.out.println(player);
-        System.out.println("Dealer's Hand: [Unknown card, " + dealer.getScore() + "]");
+        System.out.println("Dealer's Hand: [Hidden, " + dealer.getScore() + "]");
 
-        // ckeking game rules and player's turn and giving two option hit and stand according to game
-        Scanner scanner = new Scanner(System.in);
-        while (player.getScore() < 21) {
-            System.out.print("Hit or Stand? (h/s): ");
-            String choice = scanner.nextLine();
-            if (choice.equalsIgnoreCase("h")) {
-                player.receiveCard(deck.drawCard());
-                System.out.println(player);
-                if (player.isBusted()) {
-                    System.out.println("Busted! Dealer Wins the game.");
-                    System.out.println("Better luck next time!");
-                    return;
-                }
-            } else {
-                break;
-            }
+        // Handle player turn
+        turnManager.handlePlayerTurn(player);
+        if (!player.isBusted()) {
+            // Handle dealer turn if player hasn't busted
+            turnManager.handleDealerTurn(dealer);
+            // Declare the winner
+            turnManager.declareWinner(player, dealer);
         }
-
-        // Dealer's turn if game will still can't decide who wins according to points
-        System.out.println("Dealer reveals hand(his card): " + dealer);
-        while (dealer.getScore() < 17) {
-            dealer.receiveCard(deck.drawCard());
-            System.out.println(dealer);
-        }
-
-        // Declaring winner
-        declareWinner();
     }
-    
+
+   
     public static void main(String[] args) {
-        BlackjackGame game = new BlackjackGame("Player1");
+        BlackjackGame game = new BlackjackGame();
         game.play();
-    }
-
-    @Override
-    public void declareWinner() {
-        if (player.isBusted()) {
-            System.out.println("Dealer Wins the game!");
-        } else if (dealer.isBusted() || player.getScore() > dealer.getScore()) {
-            System.out.println(player.getName() + " Wins the game!");
-        } else if (player.getScore() < dealer.getScore()) {
-            System.out.println("Dealer Wins the game!");
-        } else {
-            System.out.println("It's a Tie of game!");
-        }
-    }
-
-}
+    }}

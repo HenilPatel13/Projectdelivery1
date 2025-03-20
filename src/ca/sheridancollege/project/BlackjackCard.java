@@ -17,23 +17,15 @@ package ca.sheridancollege.project;
  * The getValue() method returns the card's value, and toString() provides a string representation in the format "rank of the suit". 
  * This class is used to manage cards in a Blackjack game
  */
-public class BlackjackCard extends Card {
-    private String suit;
-    private String rank;
-    private int value;
+public class BlackjackCard extends Card{
+ private int value;
 
     public BlackjackCard(String rank, String suit, int value) {
-        this.rank = rank;
-        this.suit = suit;
+        super(rank, suit);
         this.value = value;
     }
 
     public int getValue() {
         return value;
-    }
-
-    @Override
-    public String toString() {
-        return rank + " of the " + suit;
     }
 }
